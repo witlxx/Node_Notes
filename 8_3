@@ -1,0 +1,23 @@
+工作总结
+1.使用xmind构建内容家功能结构图；
+2.整理整个产品的逻辑和属性以及功能；
+3.根据功能梳理代码；
+4.熟悉promise写法；
+5.分析：db.js和dbconnections.js
+6.了解elasticsearch
+
+一、	nrj_功能结构图
+ 
+二、	Promise用法
+Promise是一个对象，通过new来构造promise的函数，promise的参数为一个函数作为它的回调函数，这个函数必须接受两个参数，分别为resolve和reject两个函数。
+（1）	resolve方法
+当参数value仅为参数时，将value返回给then，作为then的回调函数的参数；
+当参数为空时，那么传递给then方法的回调函数的参数为空，但是这时promise实例返回一个resolved状态的对象；
+当参数为Promise的一个实例，就将这个实例直接返回给then方法作为其回调函数的参数。
+（2）	then方法
+then方法分别指定Resolved状态和Reject状态的回调函数
+（3）	catch方法
+（4）	reject方法
+实现过程：new一个Promise实例-实例中进行回调function函数function函数的参数为resolve和reject两个函数如果回调函数无异常，用resolve来将参数提供给then函数进行下一步回调如果这个回调函数有异常，利用reject返回一个参数（reason）给then方法，并且该实例的状态为Rejected，then方法实现第二个回调函数。
+
+
