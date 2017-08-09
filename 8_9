@@ -1,0 +1,48 @@
+1.mysql的细节
+2.nodejs操作mongodb
+3.弹窗效果(nodejs实现)
+
+
+两种结构的代码：
+第一种：nrj_api代码
+框架：MVC
+Models：与数据库交互的动作接口
+Views：要显示的代码（通过{{}}的json来实现）
+Controllers：与Views相关的动作
+
+代码结构：
+bin包中：
+www实现基本配置：设置端口和ip
+db.js：实现mysql数据库的基本功能[增删改查]
+mongo.js：mongodb数据库的增删改查
+redis：redis的应用
+thrift：thrift的基本接口
+
+config.js：config.js的基本配置，通过config.config()['pro']来给其他交互属性
+
+app.js：app.use('/',api)=>对于"/"以及前缀为"/"的，callback api.js
+
+api.js：router.all('*',function(req,res,next){}),==>从请求中析取$action和$method，然后通过var ev=action.Action(req,res,next);eval()来实现Controllers.js中的方法
+
+Controllers.js：这里的写法是先实例化Action()，再实现其中的子方法。这里所有的Controllers.js中，由于其都是与网页前端请求相交互的，故而采取统一的格式头：var Action=function(req,res,next){this.$method=()=>{}}
+由于Controllers.js是与前端交互，而Models.js与数据库交互，本代码中Controllers.js通过调用Models.js中返回的方法，来实现子功能。在选择子功能时，需要先知道其在那个Models.js中，故而每次都要调用Models.js这个模块来选择Models.js继而选择方法。
+
+Models.js：Models的选择，传入的参数为Tname，由于每个$methodModels中函数形式给出的接口为Model()，故而这里采用统一写法。
+
+Models.js：这里声明了匿名函数Model()，供以Models.js来return，其中的每个子方法都用this.$method，而这里通过return this来传出去函数。在$method+Models.js中定义子方法都用的是return new Promise((resolve,reject)=>{})
+在$method+Controllers.js中，采用then的方法来具体与前端交互。
+
+
+
+第二种：nodejs操作前端实现增删改查
+app.js：app.use('/',index);       //对于‘/...’都回调index.js
+            app.use('/users',users);   //对于'/users/...'都回调users.js
+
+index.js：router.get('/',function(req,res,next){res.render('index',{title:'Express'})})  
+            //对于ge请求的'/'的，调用函数，用json渲染其中的title
+users.js：实现增删改查
+             router.get('/',function(req,res,next){db.query($sql,function(){})})通过json来渲染'/'中的项
+
+仔细分析scolumnControllers.js：
+
+
