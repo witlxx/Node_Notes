@@ -1,0 +1,25 @@
+1.整理models的所有功能；
+2.模仿实现这个promise和数据库交互的功能，并测试其中的re[0]的值的情况;
+3.利用handlebars进行前后端的交互;
+4.学习Promise模型法则和buffer编程两章原理和技术
+5.整理controllers的所有功能。
+
+d=====>提供基本的数据库操作
+M=====>实现与业务相关的数据库操作(业务逻辑)
+C=====>负责与req交互，并传送res
+
+规划：
+1.database ===>table====>id name mail
+2.api===>添加==>删除
+3.M===>重删&&测试返回情况
+   C===>不执行
+   db==>基本执行（添加、删除、查找）
+
+
+database:test_re
+table:re
+create table `re`(id int(4) not null primary key,
+                         name varchar (20) not null,
+                         mail varchar(40) not null);
+
+               
