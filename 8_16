@@ -3,13 +3,13 @@
   （2）download===>安装 ： psd:eisoo.com
   （3）Win+A+X===>打开管理员服务 【命令提示符(管理员)】
   （4）net stop opensshd
-           net start opensshd
+      net start opensshd
   （5）实现传输:scp admin@192.168.37.74:D:/share/nrj_code/1.txt /codeshared
 2.测试开机自启动===>启动共享挂载卷和启动数据库docker   [完成]
    原因：未给rc.d/rc.local配置权限  
    解决方法：chmod 755 /etc/rc.d/rc.local
-                   systemctl restart rc-local
-                   755===>三位分别是 所有者权限|同组人员权限|其他人员权限
+            systemctl restart rc-local
+            755===>三位分别是 所有者权限|同组人员权限|其他人员权限
 3.以上两个问题解决了，开始学习docker其他用途细节  
   （1）了解docker==>大概括
             
@@ -33,9 +33,42 @@
              4.学习dockerfile的写法
              5.用node的容器去跑通代码
 
+docker的使用方法：
+ 1.docker images    //查看已有的镜像
+ 2.docker ps -a       //查看已经建好的容器
+ 3.docker run -it node:8.1 /bin/bash     //创建容器并进入容器   -it运行镜像    /bin/bash 以bash的形式显示shell的命令形式
+ 4.dockers start containerID     //开启容器
+ 4.docker exec -it containerID /bin/bash  //进入容器查看
+    docker attach containerID
+ 5.docker run -it -v /mnt/share/nrj_coding:/user node:8.1 bin/bash    
+     //挂载一个本地的目录到docker镜像里，在node镜像中新建了一个user文件夹，代码自动从宿主机linux到docker中
+ 6.//如何给一个创建好的镜像挂载目录
+
+ 产生的问题：
+ 从admin@192.168.37.74/share/nrj_code  挂载到 root@192.168.13.11/mnt/share/nrj_coding
+ 再挂载到 docker :/usr/nrj_code之后进行编译  ===>npm install express时，出现symlink 链接出错的问题
+ symlink '../mime/cli.js' -> '/usr/code/nrj_app/node_modules/.bin/mime'    
+ 
+  解决方法：
+
+	1. 利用xftp将文件载入带本地===>大宗代码项目
+	2. 利用scp admin@192.168.37.74/share/nrj_code /mnt/nrj_coding 载入到本地   ==>小型或单个文件
+
+
+
+ 1.关于软连接的问题  
+ 2.ln -s 的使用  ln -s 源文件路径 目标文件路径 在目标文件路径处生成一个源文件的“快捷方式”
+ 3.windows的文件系统和linux文件系统的差异
+
+
 
 systemctl status mongod.service 查看状态
 systemctl start mongod.service 启动mongo的命令
+
+
+
+
+
 
 
 
