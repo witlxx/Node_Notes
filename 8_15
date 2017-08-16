@@ -1,0 +1,88 @@
+1.mount.cifs挂载共享卷
+  （1）在本地的win上设置一个共享文件夹（右键==>属性==>共享===>添加共享用户===>可读）
+  （2）在linux机器上/mnt下mkdir个文件夹作为Linux机器的挂载地点   mkdir /mnt/share
+  （3）测试挂载   sudo mount -t cifs -o username="win的用户名",password="win的用户密码" //win ip地址/之前的共享文件名 /mnt/share
+  （4）设置自启动
+          cd ../mnt  ==>  vi fstab ===>写入 //winip地址/win上的共享文件夹 /mnt/share      cifs              
+          defaults,username="win的用户名",password="win的用户密码"  0,2
+2.xshell+xftp
+  下载安装xftp===>点击Ctrl+Shift+F(新建文件传输)===>建立==>向右传输
+3.（1）弄清楚/etc/rc.d/rc.local的功能和作用
+   （2）调好scp，解决 connetion refused的问题
+   （3）弄清楚如何使用docker镜像，本地把程序跑起来  docker-compose
+   （4）postman测试         
+ 
+4.docker中运行mysql镜像的方法：
+   （1）docker images ==>检查已经存在的镜像
+   （2）创建容器docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD="mysql密码" -d mysql:tag
+         -d 是让docker容器在后台运行
+         -p通知Docker将容器内部使用的网络端口映射到我们使用的主机上
+         -e环境变量设置，或者覆盖已存在的环境变量 
+   （3）查看已经创建的容器  docker    ps -a  
+   （4）docker start containerID    启动容器
+   （5）docker ps -s   查看已经启动的容器
+   （6）容器启动后，本端的服务器对外开启，win可使用navicat进行连接
+           可以从navicat 新建数据库，转储sql==>运行sql
+   （7）docker exec -it containerID bash ===>进入启动容器模式
+   （8）mysql -uroot -p -h localhost==>提示输入密码=>进入mysql的编辑模式
+
+5.利用docker运行nodejs程序的步骤
+   利用node镜像实例化node程序的容器==>运行容器==>浏览器监听及测试
+   从创建镜像到删除镜像：
+   
+   （1）获得镜像==>load 或者 pull
+   （2）创建nodejs程序[package.json   server.js    Dockerfile]
+            FROM node : 8.1
+            #创建目录，保存代码
+            RUN mkdir -p /usr/src/node
+            #设置工作目录
+             WORKDIR /usr/src/node
+            #复制所有代码到工作目录下
+             COPY . /usr/src/node
+             #编译node项目，使用npm安装依赖
+             WORKDIR /usr/src/node/website RUN npm install --registry=https://registry.npm.taobao.org
+             #暴露container接口
+               EXPOSE 8888
+             #运行命令
+               CMD ["npm" , "start"]
+      （3）docker build -t 镜像名字 .   #创建镜像
+      （4）docker images    查看镜像
+      （5）sudo run -d --name 容器名字 -p 8888：8888 镜像名字:tag
+      （6）测试 curl -i localhost:8888
+      （7）进入容器 sudo docker exec  -it 镜像名字：tag  /bin/bash
+      （8）停止容器:docker stop containerID
+      （9）删除容器:docker rm containerID
+      （10）删除镜像：docker rmi imageID
+
+6.利用navicat载入数据库==>运行sql文件    ctrl+F5刷新
+7.利用自身环境测试postman代码；
+   修改部分参数，将后一版本覆盖前一版本
+
+
+8.svn上传代码
+
+
+
+
+
+1.产生的问题：
+  （1）docker的使用
+  （2）docker中运行Nodejs
+  （3）docker中开放mongodb、redis
+  （4）mongodb、redis的应用
+  （5）postman的测试
+   
+linux命令：
+1.ps -ef|grep sshd   //查看进程
+2.rpm -qa|grep ssh  //查询是否被安装
+
+sshd:/usr/sbin/sshd /usr/share/man/man8/sshd.8.gz
+ssh: /usr/bin/ssh /etc/ssh /usr/share/man/man1/ssh.1.gz
+
+可能的原因：
+win端没有安装ssh
+win端没办法被访问
+lin端的/etc/init.d/sshd不见了===测试本地ssh的方法
+rpm -qa|grep ssh   ===>查看已经安装的ssh
+ps -e|grep ssh        ===>正在运行的ssh或者sshd
+ssh localhost          ===>本地测试是否能启用ssh
