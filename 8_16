@@ -1,0 +1,43 @@
+1.解决22端口 connection refused问题 [完成]
+  （1）在win上安装openssh for windows
+  （2）download===>安装 ： psd:eisoo.com
+  （3）Win+A+X===>打开管理员服务 【命令提示符(管理员)】
+  （4）net stop opensshd
+           net start opensshd
+  （5）实现传输:scp admin@192.168.37.74:D:/share/nrj_code/1.txt /codeshared
+2.测试开机自启动===>启动共享挂载卷和启动数据库docker   [完成]
+   原因：未给rc.d/rc.local配置权限  
+   解决方法：chmod 755 /etc/rc.d/rc.local
+                   systemctl restart rc-local
+                   755===>三位分别是 所有者权限|同组人员权限|其他人员权限
+3.以上两个问题解决了，开始学习docker其他用途细节  
+  （1）了解docker==>大概括
+            
+     镜像和容器的关系是：镜像类似于一个类，把软件做成镜像储备在软件仓库中。本地通过docker pull把镜像来进本地（或者将做好的镜像push到docker-repo。）通过实例化成为一个对象（docker run）实例出一个容器；docker start containerID。
+
+  （2）docker是如何制作镜像的，镜像、容器的含义
+       
+  （3）docker是如何导出镜像给另一个主机使用的（如何两台主机共享镜像）==>push到数据仓库，可以从数据仓库拉取
+  （4）dockerfile的书写规则
+                    FROM   来源于哪个父镜像
+                    MAINTAINER     镜像的维护者
+                    RUN   创建镜像时需要的执行的命令
+                    ADD
+                    EXPOSE 容器开放的端口
+                    CMD
+                    WORKDIR
+====>要完成的任务：
+             1.用已有的node镜像去完成一个node容器的编译==>运行==stop==>rm container
+             2.用已有的镜像去实现一个新的镜像，并且发布一个镜像==>push==>pull
+             3.弄清楚repo在云端还是在本地，WORKDIR是啥
+             4.学习dockerfile的写法
+             5.用node的容器去跑通代码
+
+
+systemctl status mongod.service 查看状态
+systemctl start mongod.service 启动mongo的命令
+
+
+
+
+
