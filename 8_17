@@ -1,0 +1,36 @@
+1.建一个本地镜像仓库
+   1.拉进仓库镜像：docker pull registry
+   2.建立registry容器，并设置本地仓库的位置
+   docker run -itd -p 5000:5000 --name registry_2 -v /data/registry:/tmp/registry registry
+   生成registry容器==>docker run -it registry
+   设置对外端口=======>-p 5000:5000
+   挂载数据卷地点： -v /data/registry:/tmp/registry
+   3.进入查看挂载地点 dockers exec -it containerID /bin/bash
+   4.由于docker支持传输的协议为https，而本地支持的是http，所以如果直接push一个本地镜像到本地镜像仓库，会出现如下错误：
+     Get https://192.168.13.11:5000/v2/: http: server gave HTTP response to HTTPS client
+   5.需要在/etc/docker下新建一个daemon.json  vi daemon.json===>{"insecure":["192.168.13.11:5000"]}
+   6.但之后docker push ImageName的时候出现一个错误
+     Get http://192.168.13.11:5000/v2/: dial tcp 192.168.13.11:5000: getsockopt: connection refused
+   7.试了很多解决方法：检查网络   ping 192.168.13.11    ==>通的
+                              lsof -i tcp:5000       ==>端口没有被占用
+                              docker ps -a          ===>发现没有打开registry
+                              docker start containerID  ==>解决
+   8.另外，在传输本地镜像到本地镜像仓库时，需要注意的是要更改镜像的tag
+     比如像传递本地的busybox，需要首先：docker tag busybox 192.168.13.11:5000/busybox
+ 
+
+2.上传镜像到本地镜像仓库
+   方法如上 docker push 
+3.将本地镜像仓库中的镜像保存至本地
+     方法如上 docker pull 
+
+4.dockerfile完成一个镜像，并上传至本地镜像仓库 && 下载
+   
+5.dockerfile完成nodejs项目的镜像任务
+
+ 6.其他
+  1）配置网易163源==>自带的yum源更新太慢 步骤:http://jingyan.baidu.com/article/d2b1d1027b76c75c7e37d4d0.html
+  2）镜像：一个磁盘上的数据在另一个磁盘上存在一个完全相同的副本即为镜像 http://blog.csdn.net/chszs/article/details/48252799
+
+
+
