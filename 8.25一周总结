@@ -1,0 +1,153 @@
+日期	工作总结
+8.21（周一）	1.Mongodb的可视化软件及指令：
+1）转移数据库操作
+2）转移集合操作
+3）基本的更删改查操作
+2.docker基本内容复习：
+1）概念：镜像、容器、数据卷
+2）docker-compose
+3.字典树算法学习
+8.22（周二）	1.node操作Mongodb指令(from mongo.js)
+2.redis可视化软件及相关概念
+3.从需求到接口设计到代码实现分析
+ANCT-391 收起订阅列表
+4.了解sql注入的基本内容
+8.23（周三）	1.参加ANCT-393 企业模块化的SBE讨论
+2.理解ANCT-393的需求
+3.根据接口尝试编写接口代码
+8.24（周四）	1.在编写代码过程中学习：
+ 1）解决闭包问题
+ 2）如何异步以提高运行速度
+ 3）如何设计代码接口以显得清晰
+ 4）理解实现问题的逻辑，理清楚使用者、
+发布者等参与者的身份和权限
+2.学习linux的基本指令和内容家项目部署
+8.25（周五）	1.参考已提交代码，分析结构
+2.内容家项目部署
+3.部署过程中用到的指令及其作用
+
+工作总结（周一）
+1.Mongodb的可视化软件及指令（可视化软件：Robo 3T 1.1.1）：
+1）转移数据库操作
+db.runCommand({cloneCollection:"nrj.nrj_user",from:"ip:port"})
+将ip:port中的数据库nrj中的表nrj_user复制到本地
+2）转移集合操作
+   db.copyDatabase("nrj","nrj_copy","localhost")   //本地转移
+   ：从本地的nrj数据库复制到nrj_copy数据库
+3）基本的更增改查操作
+   增：db.nrj_user.insert({name:"user1"});
+       db.nrj_user.save({_id:1, name:"user1"});
+ //save()如果已经存在就不会插入，如果不存在就插入
+   删：db.nrj_user.remove({name:"user1"});
+   改：db.nrj_user.update({name: "user1"},{id:2},{upsert:true})
+   查：db.nrj_user.find({_id:2}).limit(4);
+2.docker基本内容复习：
+1）概念：镜像、容器、数据卷
+   镜像（mirror）：一个只读的模板，里边包含了运行的环境、应用配置，可以移植。
+   容器（container）：利用容器创建的用来运行应用的介质。
+   数据卷（volume）：数据被挂载到docker的一个目录下，这个目录地址为数据卷。
+2）docker-compose.yml编写
+   http://www.cnblogs.com/freefei/p/5311294.html
+3.字典树算法学习
+  
+工作总结（周二）
+1.	node操作Mongodb指令(from mongo.js)
+增：add(data)
+db.collection(that.config.mongo.collection).insert(data,callback);
+查：find(where)
+db.collection(that.config.mongo.collection).find(where,callback);
+条件查找：limit(where,begin,count)
+db.collection(that.config.mongo.collection).find(where).skip(begin).limit(count).toArray(callback);
+计数：count(where)
+db.collection(that.config.mongo.collection).find(where).count();
+分段取并：distinct(key,where,opts)
+db.collection(that.config.mongo.collection).distinct(key,where,opts);
+2.	redis可视化软件及相关概念（可视化软件: RedisDesktopManager）：
+
+3.	从需求到接口设计到代码实现分析ANCT-391 收起订阅列表
+4.	了解sql注入的基本内容
+1）	sql注入攻击
+2）	xss
+ 
+工作总结（周三）
+1.参加ANCT-393 企业模块化的SBE讨论
+2.理解ANCT-393的需求
+3.根据接口尝试编写接口代码
+
+
+工作总结（周四）
+
+1.在编写代码过程中学习：
+ 1）解决闭包问题
+ 2）如何异步以提高运行速度
+ 3）如何设计代码接口以显得清晰
+ 4）理解实现问题的逻辑，理清楚使用者、发布者等参与者的身份和权限
+
+2.学习linux的基本指令和内容家项目部署
+  1）常用文件目录
+/bin 可执行程序&命令 如:bash  	/mnt 临时挂载其他文件的系统目录
+/sbin root系统超级管理员程序&命令	/var  系统及其程序日志
+/dev 设备文件	/var  程序运行的数据缓存
+/proc 内存映射文件	/var  应用程序数据存储
+/etc  系统配置文件	/lib   标准程序动态链接共享库
+/root 系统超级管理员主目录	/usr  程序开发头文件&应用程序依赖库
+
+2）bash命令
+系统信息查询	文件&目录操作	磁盘&分区管理	其他管理
+uname -a
+查询系统信息	cd
+进入目录	fdisk -l
+磁盘信息  	ip addr
+查看ip地址
+cat /etc/issue
+查看当前版本	cp sour dest
+复制	df -h
+目录挂载信息	ps -ef | grep xyz
+查看进程
+lab_release
+查看发行版本信息	mv
+移动	lvs | vgs
+	netstat -anp |grep
+监听端口 
+top | free
+查看进程信息	ls -a | ll
+此目录下目录权限	mkfs
+格式化	systemtcl start(stat..)
+启动应用程序
+date
+当前时间信息	pwd
+显示当前路径	du -sh
+查看当前目录大小	init6
+强制重启
+	mkdir
+创建目录		reboot
+正常重启
+
+3）	网络配置（/etc/sysconfig/network-scripts/ifcfg-*）
+DHCP配置：DEVICE = 网卡设备 BOOTPROTO = dhcp  ONBOOT = yes
+STATIC配置：
+TYPE=Ethernet
+BOOTPROTO=static
+DEFROUTE=yes
+NAME=网络接口名称
+DEVICE=网卡设备
+ONBOOT=yes
+DNS1=DNS地址
+IPADDR=IP地址
+PREFIX=24
+GATEWAY=网关地址
+
+4）	内容家服务配置
+ 
+
+工作总结（周五）
+1.参考已提交代码，分析代码结构
+2.内容家项目部署
+3.部署过程中用到的指令及其作用
+  0)更换yum源
+  1) yum install epel-release -y
+    epel:centOS的一个软件源，包含很多基本版中没有的软件
+  2)yum makecache fast 
+    形成本地缓存
+  3) yum install -y yum-utils device-mapper-persistent-data lvm2
+  4)yum-config-manger指令   
