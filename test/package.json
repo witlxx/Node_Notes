@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www"
   },
-  "depen": {
+  "dependencies": {
     "ali-oss": "~4.4.4",
     "async": "~2.0.1",
     "bce-sdk-js": "~0.1.8",
